@@ -54,6 +54,7 @@
 
   <modules>
     <module>libraries/core</module>
+    <module>libraries/databind</module>
   </modules>
 
   <build>
