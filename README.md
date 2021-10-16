@@ -36,7 +36,7 @@ Jargon is currently in early stages of development.
 | Milestone |   Status    | Description                             |
 |----------:|:-----------:|-----------------------------------------|
 |         1 | In Progress | A `JsonParser` API with ASCII support   |
-|         2 |   Planned   | A `JsonNode` API                        |
+|         2 | In Progress | A `JsonNode` API                        |
 |         3 |   Planned   | UTF-8 support                           |
 |         4 |   Planned   | Scientific notation support for numbers |
 |         5 |   Planned   | Escape code support for strings         |
