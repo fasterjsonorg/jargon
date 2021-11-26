@@ -23,57 +23,74 @@ public enum JsonToken {
     /**
      * The end of an array ({@code ]}).
      */
-    END_ARRAY,
+    END_ARRAY("]"),
 
     /**
      * The end of an object (<code>}</code>).
      */
-    END_OBJECT,
+    END_OBJECT("}"),
 
     /**
      * A field name.
      */
-    FIELD_NAME,
+    FIELD_NAME(null),
 
     /**
      * The start of an array ({@code [}).
      */
-    START_ARRAY,
+    START_ARRAY("["),
 
     /**
      * The start of an object (<code>{</code>).
      */
-    START_OBJECT,
+    START_OBJECT("{"),
 
     /**
      * The false value ({@code false}).
      */
-    VALUE_FALSE,
+    VALUE_FALSE("false"),
 
     /**
      * The null value ({@code null}).
      */
-    VALUE_NULL,
+    VALUE_NULL("null"),
 
     /**
      * A decimal value.
      */
-    VALUE_NUMBER_FLOAT,
+    VALUE_NUMBER_FLOAT(null),
 
     /**
      * An integer value.
      */
-    VALUE_NUMBER_INT,
+    VALUE_NUMBER_INT(null),
 
     /**
      * A string value.
      */
-    VALUE_STRING,
+    VALUE_STRING(null),
 
     /**
      * The true value ({@code true}).
      */
-    VALUE_TRUE;
+    VALUE_TRUE("true");
+
+    private final String asString;
+
+    private JsonToken(final String asString) {
+        this.asString = asString;
+    }
+
+    /**
+     * Returns a string representing the constant value of this token or
+     * {@code null} if this token has no constant value.
+     *
+     * @return a string representing the constant value of this token or
+     *     {@code null} if this token has no constant value
+     */
+    public String asString() {
+        return asString;
+    }
 
     /**
      * Returns true if this token is {@link #VALUE_FALSE} or
