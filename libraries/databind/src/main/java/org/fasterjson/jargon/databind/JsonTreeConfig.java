@@ -140,7 +140,7 @@ public class JsonTreeConfig {
     /**
      * Get the maximum capacity for nesting depth.
      * {@link JsonTree#reset(JsonParser)} throws a {@link JsonMappingException}
-     * if the nesting depth exceeds this.
+     * if the nesting depth exceeds this value.
      *
      * @return the maximum capacity for nesting depth
      */
