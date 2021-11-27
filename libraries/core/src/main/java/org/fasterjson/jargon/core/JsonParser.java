@@ -15,6 +15,8 @@
  */
 package org.fasterjson.jargon.core;
 
+import java.io.IOException;
+
 /**
  * A JSON parser.
  */
@@ -86,7 +88,8 @@ public interface JsonParser {
      * Get the next token or {@code null} if there are no more tokens.
      *
      * @return the next token or {@code null} if there are no more tokens
+     * @throws IOException if an I/O error occurs
      */
-    JsonToken nextToken();
+    JsonToken nextToken() throws IOException;
 
 }

@@ -15,9 +15,9 @@
  */
 package org.fasterjson.jargon.databind;
 
+import java.io.IOException;
 import java.util.Arrays;
 import org.fasterjson.jargon.core.JsonParser;
-import org.fasterjson.jargon.core.JsonProcessingException;
 import org.fasterjson.jargon.core.JsonToken;
 import org.fasterjson.jargon.databind.node.MissingNode;
 
@@ -117,9 +117,9 @@ public class JsonTree {
      *
      * @param parser a JSON parser
      * @return the root JSON node
-     * @throws JsonProcessingException if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
-    public JsonNode reset(final JsonParser parser) throws JsonProcessingException {
+    public JsonNode reset(final JsonParser parser) throws IOException {
         int index = 0;
 
         depth = 0;
