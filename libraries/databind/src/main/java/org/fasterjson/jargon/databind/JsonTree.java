@@ -203,7 +203,7 @@ public class JsonTree {
         int newNestingCapacity = Math.min(2 * currentNestingCapacity, maxNestingCapacity);
 
         if (newNestingCapacity == currentNestingCapacity)
-            throw new JsonMappingException("Maximum nesting capacity exceeded");
+            mappingError("Maximum nesting capacity exceeded");
 
         containerStartIndexes = Arrays.copyOf(containerStartIndexes, newNestingCapacity);
     }
@@ -214,7 +214,7 @@ public class JsonTree {
         int newNodeCapacity = Math.min(2 * currentNodeCapacity, maxNodeCapacity);
 
         if (newNodeCapacity == currentNodeCapacity)
-            throw new JsonMappingException("Maximum node capacity exceeded");
+            mappingError("Maximum node capacity exceeded");
 
         nodes = Arrays.copyOf(nodes, newNodeCapacity);
 
