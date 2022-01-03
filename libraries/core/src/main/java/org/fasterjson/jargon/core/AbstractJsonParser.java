@@ -207,10 +207,8 @@ abstract class AbstractJsonParser implements JsonParser {
 
         int ch;
 
-        if (lastCh != -1) {
+        if (lastCh != -1 && !isWhitespace(lastCh)) {
             ch = lastCh;
-
-            lastCh = -1;
         }
         else {
             ch = nextNonWhitespaceAsciiChar();
@@ -220,6 +218,8 @@ abstract class AbstractJsonParser implements JsonParser {
                 return null;
             }
         }
+
+        lastCh = -1;
 
         if (depth == 0 && previousToken != null)
             unexpectedAsciiChar(ch);
@@ -331,7 +331,7 @@ abstract class AbstractJsonParser implements JsonParser {
     private int nextNonWhitespaceAsciiChar() throws IOException {
         while (true) {
             int ch = nextAsciiChar();
-            if (ch == SP || ch == LF || ch == CR || ch == HT)
+            if (isWhitespace(ch))
                 continue;
 
             return ch;
@@ -542,6 +542,10 @@ abstract class AbstractJsonParser implements JsonParser {
 
     private static boolean isDigit(final int ch) {
         return '0' <= ch && ch <= '9';
+    }
+
+    private static boolean isWhitespace(final int ch) {
+        return ch == SP || ch == LF || ch == CR || ch == HT;
     }
 
     private static void notBooleanValue() throws JsonParseException {
