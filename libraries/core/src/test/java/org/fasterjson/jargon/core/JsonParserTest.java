@@ -569,6 +569,11 @@ abstract class JsonParserTest<P extends JsonParser> {
         assertEquals("[ null ]", parse("\t[\tnull\t]\t"));
     }
 
+    @Test
+    void spAfterValueNumberIntWithinArray() throws Exception {
+        assertEquals("[ 0 1 ]", parse("[0 , 1]"));
+    }
+
     // Current name
 
     @Test
