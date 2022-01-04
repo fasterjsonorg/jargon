@@ -55,6 +55,7 @@
   <modules>
     <module>libraries/core</module>
     <module>libraries/databind</module>
+    <module>tests/integration-test</module>
     <module>tests/reference-test</module>
   </modules>
 
