@@ -152,13 +152,13 @@ public class JsonTree {
                 break;
             case START_ARRAY:
                 handleValue();
-                handleStartStruct(index, ContainerType.ARRAY);
-                set(index++, currentName, Type.ARRAY);
+                set(index, currentName, Type.ARRAY);
+                handleStartStruct(index++, ContainerType.ARRAY);
                 break;
             case START_OBJECT:
                 handleValue();
-                handleStartStruct(index, ContainerType.OBJECT);
-                set(index++, currentName, Type.OBJECT);
+                set(index, currentName, Type.OBJECT);
+                handleStartStruct(index++, ContainerType.OBJECT);
                 break;
             case VALUE_FALSE:
                 handleValue();
@@ -222,6 +222,9 @@ public class JsonTree {
             nodes[i] = new Node(i);
 
         nextSiblingIndexes = Arrays.copyOf(nextSiblingIndexes, newNodeCapacity);
+
+        for (int i = currentNodeCapacity; i < newNodeCapacity; i++)
+            nextSiblingIndexes[i] = i + 1;
     }
 
     private void handleStartStruct(final int index, final ContainerType containerType) throws JsonMappingException {
