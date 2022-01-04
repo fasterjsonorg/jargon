@@ -376,7 +376,13 @@ class JsonTreeTest {
 
         parser.push(END_ARRAY);
 
-        tree.reset(parser);
+        root = tree.reset(parser);
+
+        assertTrue(root.isArray());
+        assertEquals(62, root.size());
+
+        for (int i = 0; i < 62; i++)
+            assertTrue(root.get(i).isNull());
     }
 
     @Test
