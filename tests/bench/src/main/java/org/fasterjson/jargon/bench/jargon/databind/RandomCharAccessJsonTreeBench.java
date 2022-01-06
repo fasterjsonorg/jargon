@@ -25,7 +25,7 @@ import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Setup;
 
-public class JsonTreeBench extends Bench {
+public class RandomCharAccessJsonTreeBench extends Bench {
 
     private CharSequenceSource source;
 
