@@ -17,7 +17,7 @@ package org.fasterjson.jargon.test.integration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.fasterjson.jargon.core.RandomCharAccessJsonParser;
+import org.fasterjson.jargon.core.CharJsonParser;
 import org.fasterjson.jargon.core.io.CharSequenceSource;
 import org.fasterjson.jargon.databind.JsonNode;
 import org.fasterjson.jargon.databind.JsonTree;
@@ -50,7 +50,7 @@ class StringToJsonTreeTest {
     @BeforeEach
     void setUp() throws Exception {
         CharSequenceSource source = new CharSequenceSource();
-        RandomCharAccessJsonParser parser = new RandomCharAccessJsonParser();
+        CharJsonParser parser = new CharJsonParser();
 
         source.reset(INPUT);
         parser.reset(source);

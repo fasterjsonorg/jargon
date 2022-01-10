@@ -16,25 +16,39 @@
 package org.fasterjson.jargon.core;
 
 import java.io.IOException;
-import org.fasterjson.jargon.core.io.ByteStreamSource;
+import org.fasterjson.jargon.core.io.ByteArraySource;
 import org.fasterjson.jargon.core.io.InputStreamSource;
+import org.fasterjson.jargon.core.io.ByteSource;
 
 /**
- * A byte stream JSON parser. A JSON parser of this kind can read from sources
- * that provide efficient access to the next byte of the input.
+ * A JSON parser that reads from byte sources.
  *
+ * @see ByteArraySource
  * @see InputStreamSource
  */
-public class ByteStreamJsonParser extends AbstractJsonParser {
+public class ByteJsonParser extends AbstractJsonParser {
 
-    private static final InputStreamSource EMPTY_SOURCE = new InputStreamSource();
+    private static final ByteSource EMPTY_SOURCE = new ByteSource() {
 
-    private ByteStreamSource source;
+        @Override
+        public int read(final byte[] buffer) {
+            return -1;
+        }
+
+    };
+
+    private final byte[] buffer;
+
+    private int length;
+
+    private int index;
+
+    private ByteSource source;
 
     /**
      * Construct a new instance using the default configuration.
      */
-    public ByteStreamJsonParser() {
+    public ByteJsonParser() {
         this(JsonParserConfig.DEFAULTS);
     }
 
@@ -43,8 +57,10 @@ public class ByteStreamJsonParser extends AbstractJsonParser {
      *
      * @param config the configuration
      */
-    public ByteStreamJsonParser(final JsonParserConfig config) {
+    public ByteJsonParser(final JsonParserConfig config) {
         super(config);
+
+        buffer = new byte[config.getBufferSize()];
 
         reset(EMPTY_SOURCE);
     }
@@ -54,15 +70,42 @@ public class ByteStreamJsonParser extends AbstractJsonParser {
      *
      * @param source the source
      */
-    public void reset(final ByteStreamSource source) {
+    public void reset(final ByteSource source) {
         super.reset();
+
+        this.length = 0;
+
+        this.index = 0;
 
         this.source = source;
     }
 
     @Override
     int nextAsciiChar() throws IOException {
-        return source.nextByte();
+        if (index < length)
+            return buffer[index++];
+
+        return nextAsciiCharSlowPath();
+    }
+
+    private int nextAsciiCharSlowPath() throws IOException {
+        if (length == -1)
+            return -1;
+
+        while (true) {
+            length = source.read(buffer);
+            if (length == -1)
+                return -1;
+
+            if (length == 0)
+                continue;
+
+            break;
+        }
+
+        index = 1;
+
+        return buffer[0];
     }
 
 }

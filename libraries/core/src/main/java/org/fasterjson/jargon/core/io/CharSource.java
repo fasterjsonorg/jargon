@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fasterjson.jargon.core;
+package org.fasterjson.jargon.core.io;
 
-import org.fasterjson.jargon.core.io.CharSequenceSource;
-import org.junit.jupiter.api.BeforeEach;
+import java.io.IOException;
+import org.fasterjson.jargon.core.CharJsonParser;
 
-class RandomCharAccessJsonParserTest extends JsonParserTest<RandomCharAccessJsonParser> {
+/**
+ * A character source.
+ *
+ * @see CharJsonParser
+ */
+public interface CharSource {
 
-    private CharSequenceSource source;
-
-    @BeforeEach
-    void setUp() {
-        source = new CharSequenceSource();
-
-        parser = new RandomCharAccessJsonParser(CONFIG);
-    }
-
-    @Override
-    void reset(final String input) {
-        source.reset(input);
-        parser.reset(source);
-    }
+    /**
+     * Read from the input.
+     *
+     * @param buffer the destination buffer
+     * @return the number of characters read or {@code -1} if there are no more
+     *     characters
+     * @throws IOException if an I/O error occurs
+     */
+    int read(char[] buffer) throws IOException;
 
 }

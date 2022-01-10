@@ -17,75 +17,39 @@ package org.fasterjson.jargon.core.io;
 
 import java.io.IOException;
 import java.io.InputStream;
-import org.fasterjson.jargon.core.ByteStreamJsonParser;
+import org.fasterjson.jargon.core.ByteJsonParser;
 
 /**
  * An {@link InputStream} source.
  *
- * @see ByteStreamJsonParser
+ * @see ByteJsonParser
  */
-public class InputStreamSource implements ByteStreamSource {
-
-    private final byte[] buffer;
-
-    private int length;
-
-    private int index;
+public class InputStreamSource implements ByteSource {
 
     private InputStream input;
 
     /**
-     * Construct a new instance using the default configuration.
+     * Construct a new instance.
      */
     public InputStreamSource() {
-        this(SourceConfig.DEFAULTS);
+        reset(null);
     }
 
     /**
-     * Construct a new instance using a custom configuration.
+     * Reset this source.
      *
-     * @param config the configuration
-     */
-    public InputStreamSource(final SourceConfig config) {
-        this.buffer = new byte[config.getBufferSize()];
-
-        this.length = -1;
-
-        this.index = 0;
-
-        this.input = null;
-    }
-
-    /**
-     * Reset this instance.
-     *
-     * @param input the input
+     * @param input the input document
      */
     public void reset(final InputStream input) {
-        this.length = 0;
-
-        this.index = 0;
-
         this.input = input;
     }
 
     @Override
-    public int nextByte() throws IOException {
-        if (index < length)
-            return buffer[index++];
-
-        return nextByteSlowPath();
-    }
-
-    private int nextByteSlowPath() throws IOException {
-        if (length == -1)
+    public int read(final byte[] buffer) throws IOException {
+        if (input == null)
             return -1;
 
-        length = input.read(buffer);
-
-        index = 0;
-
-        return nextByte();
+        return input.read(buffer);
     }
 
 }

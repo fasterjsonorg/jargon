@@ -15,14 +15,14 @@
  */
 package org.fasterjson.jargon.core.io;
 
-import org.fasterjson.jargon.core.RandomByteAccessJsonParser;
+import org.fasterjson.jargon.core.ByteJsonParser;
 
 /**
  * A byte array source.
  *
- * @see RandomByteAccessJsonParser
+ * @see ByteJsonParser
  */
-public class ByteArraySource implements RandomByteAccessSource {
+public class ByteArraySource implements ByteSource {
 
     private static final byte[] EMPTY_INPUT = {};
 
@@ -68,13 +68,18 @@ public class ByteArraySource implements RandomByteAccessSource {
     }
 
     @Override
-    public byte byteAt(final int index) {
-        return input[offset + index];
-    }
+    public int read(final byte[] buffer) {
+        if (length == 0)
+            return -1;
 
-    @Override
-    public int length() {
-        return length;
+        int count = Math.min(length, buffer.length);
+
+        System.arraycopy(input, offset, buffer, 0, count);
+
+        offset += count;
+        length -= count;
+
+        return count;
     }
 
 }

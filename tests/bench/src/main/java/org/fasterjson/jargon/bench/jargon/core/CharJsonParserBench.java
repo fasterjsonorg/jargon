@@ -13,53 +13,73 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fasterjson.jargon.bench.jargon.databind;
+package org.fasterjson.jargon.bench.jargon.core;
 
 import java.io.IOException;
 import org.fasterjson.jargon.bench.Bench;
-import org.fasterjson.jargon.core.RandomCharAccessJsonParser;
+import org.fasterjson.jargon.core.JsonToken;
+import org.fasterjson.jargon.core.CharJsonParser;
 import org.fasterjson.jargon.core.io.CharSequenceSource;
-import org.fasterjson.jargon.databind.JsonNode;
-import org.fasterjson.jargon.databind.JsonTree;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Setup;
 
-public class RandomCharAccessJsonTreeBench extends Bench {
+public class CharJsonParserBench extends Bench {
 
     private CharSequenceSource source;
 
-    private RandomCharAccessJsonParser parser;
-
-    private JsonTree tree;
+    private CharJsonParser parser;
 
     @Setup(Level.Iteration)
     public void prepare() {
         source = new CharSequenceSource();
 
-        parser = new RandomCharAccessJsonParser();
-
-        tree = new JsonTree();
+        parser = new CharJsonParser();
     }
 
     @Benchmark
-    public double sum() throws IOException {
-        JsonNode root = parse("" +
+    public JsonToken valueNull() throws IOException {
+        return parse("null");
+    }
+
+    @Benchmark
+    public JsonToken valueNumberFloat() throws IOException {
+        return parse("1.23");
+    }
+
+    @Benchmark
+    public JsonToken valueNumberInt() throws IOException {
+        return parse("123");
+    }
+
+    @Benchmark
+    public JsonToken valueString() throws IOException {
+        return parse("\"foo\"");
+    }
+
+    @Benchmark
+    public JsonToken emptyObject() throws IOException {
+        return parse("{}");
+    }
+
+    @Benchmark
+    public JsonToken nonEmptyObject() throws IOException {
+        return parse("" +
                 "{\n" +
                 "  \"null\": null,\n" +
                 "  \"float\": 1.23,\n" +
                 "  \"int\": 123,\n" +
                 "  \"string\": \"foo\"\n" +
                 "}");
-
-        return root.get("float").doubleValue() + root.get("int").longValue();
     }
 
-    private JsonNode parse(final String input) throws IOException {
+    private JsonToken parse(final String input) throws IOException {
         source.reset(input);
         parser.reset(source);
 
-        return tree.reset(parser);
+        while (parser.nextToken() != null);
+
+        return parser.currentToken();
     }
 
 }

@@ -21,6 +21,11 @@ package org.fasterjson.jargon.core;
 public class JsonParserConfig {
 
     /**
+     * The default buffer size.
+     */
+    public static final int DEFAULT_BUFFER_SIZE = 65536;
+
+    /**
      * The default minimum capacity for nesting depth.
      */
     public static final int DEFAULT_MIN_NESTING_CAPACITY = 2;
@@ -55,6 +60,8 @@ public class JsonParserConfig {
      */
     public static final JsonParserConfig DEFAULTS = JsonParserConfig.newBuilder().build();
 
+    private final int bufferSize;
+
     private final int minNestingCapacity;
     private final int maxNestingCapacity;
 
@@ -64,9 +71,12 @@ public class JsonParserConfig {
     private final int minStringCapacity;
     private final int maxStringCapacity;
 
-    private JsonParserConfig(final int minNestingCapacity, final int maxNestingCapacity,
-            final int minFieldNameCapacity, final int maxFieldNameCapacity,
-            final int minStringCapacity, final int maxStringCapacity) {
+    private JsonParserConfig(final int bufferSize, final int minNestingCapacity,
+            final int maxNestingCapacity, final int minFieldNameCapacity,
+            final int maxFieldNameCapacity, final int minStringCapacity,
+            final int maxStringCapacity) {
+        this.bufferSize = bufferSize;
+
         this.minNestingCapacity = minNestingCapacity;
         this.maxNestingCapacity = maxNestingCapacity;
 
@@ -84,6 +94,15 @@ public class JsonParserConfig {
      */
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    /**
+     * Get the buffer size.
+     *
+     * @return the buffer size
+     */
+    public int getBufferSize() {
+        return bufferSize;
     }
 
     /**
@@ -155,6 +174,8 @@ public class JsonParserConfig {
      */
     public static class Builder {
 
+        private int bufferSize;
+
         private int minNestingCapacity;
         private int maxNestingCapacity;
 
@@ -165,6 +186,8 @@ public class JsonParserConfig {
         private int maxStringCapacity;
 
         private Builder() {
+            bufferSize = DEFAULT_BUFFER_SIZE;
+
             minNestingCapacity = DEFAULT_MIN_NESTING_CAPACITY;
             maxNestingCapacity = DEFAULT_MAX_NESTING_CAPACITY;
 
@@ -173,6 +196,19 @@ public class JsonParserConfig {
 
             minStringCapacity = DEFAULT_MIN_STRING_CAPACITY;
             maxStringCapacity = DEFAULT_MAX_STRING_CAPACITY;
+        }
+
+        /**
+         * Set the buffer size.
+         *
+         * @param bufferSize the buffer size
+         * @return this instance
+         * @see JsonParserConfig#getBufferSize
+         */
+        public Builder setBufferSize(final int bufferSize) {
+            this.bufferSize = bufferSize;
+
+            return this;
         }
 
         /**
@@ -259,9 +295,10 @@ public class JsonParserConfig {
          * @return the JSON tree configuration
          */
         public JsonParserConfig build() {
-            return new JsonParserConfig(minNestingCapacity, maxNestingCapacity,
-                    minFieldNameCapacity, maxFieldNameCapacity,
-                    minStringCapacity, maxStringCapacity);
+            return new JsonParserConfig(bufferSize, minNestingCapacity,
+                    maxNestingCapacity, minFieldNameCapacity,
+                    maxFieldNameCapacity, minStringCapacity,
+                    maxStringCapacity);
         }
 
     }

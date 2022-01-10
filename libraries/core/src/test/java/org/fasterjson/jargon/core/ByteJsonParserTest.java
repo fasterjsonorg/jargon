@@ -13,22 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fasterjson.jargon.core.io;
+package org.fasterjson.jargon.core;
 
-import java.io.IOException;
+import static java.nio.charset.StandardCharsets.*;
 
-/**
- * A byte stream source. A source of this kind provides efficient access to
- * the next byte of the input.
- */
-public interface ByteStreamSource {
+import org.fasterjson.jargon.core.io.ByteArraySource;
+import org.junit.jupiter.api.BeforeEach;
 
-    /**
-     * Get the next byte or {@code -1} if the are no more bytes.
-     *
-     * @return the next byte or {@code -1} if there are no more bytes
-     * @throws IOException if an I/O error occurs
-     */
-    int nextByte() throws IOException;
+class ByteJsonParserTest extends JsonParserTest<ByteJsonParser> {
+
+    private ByteArraySource source;
+
+    @BeforeEach
+    void setUp() {
+        source = new ByteArraySource();
+
+        parser = new ByteJsonParser(CONFIG);
+    }
+
+    @Override
+    void reset(final String input) {
+        source.reset(input.getBytes(UTF_8));
+        parser.reset(source);
+    }
 
 }
