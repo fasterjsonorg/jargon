@@ -15,22 +15,22 @@
  */
 package org.fasterjson.jargon.core.io;
 
-import org.fasterjson.jargon.core.RandomCharAccessJsonParser;
+import org.fasterjson.jargon.core.CharJsonParser;
 
 /**
  * A {@link CharSequence} source.
  *
- * @see RandomCharAccessJsonParser
+ * @see CharJsonParser
  */
-public class CharSequenceSource implements RandomCharAccessSource {
+public class CharSequenceSource implements CharSource {
 
     private static final String EMPTY_INPUT = "";
 
     private CharSequence input;
 
-    private int offset = 0;
+    private int offset;
 
-    private int length = 0;
+    private int length;
 
     /**
      * Construct a new instance.
@@ -68,13 +68,19 @@ public class CharSequenceSource implements RandomCharAccessSource {
     }
 
     @Override
-    public char charAt(final int index) {
-        return input.charAt(offset + index);
-    }
+    public int read(final char[] buffer) {
+        if (length == 0)
+            return -1;
 
-    @Override
-    public int length() {
-        return length;
+        int count = Math.min(length, buffer.length);
+
+        for (int i = 0; i < count; i++)
+            buffer[i] = input.charAt(offset + i);
+
+        offset += count;
+        length -= count;
+
+        return count;
     }
 
 }

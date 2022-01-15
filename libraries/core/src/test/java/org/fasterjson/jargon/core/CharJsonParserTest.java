@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fasterjson.jargon.core.io;
+package org.fasterjson.jargon.core;
 
-import java.io.IOException;
+import org.fasterjson.jargon.core.io.CharSequenceSource;
+import org.junit.jupiter.api.BeforeEach;
 
-/**
- * A character stream source. A source of this kind provides efficient access
- * to the next character of the input.
- */
-public interface CharStreamSource {
+class CharJsonParserTest extends JsonParserTest<CharJsonParser> {
 
-    /**
-     * Get the next character or {@code -1} if the are no more characters.
-     *
-     * @return the next character or {@code -1} if there are no more characters
-     * @throws IOException if an I/O error occurs
-     */
-    int nextChar() throws IOException;
+    private CharSequenceSource source;
+
+    @BeforeEach
+    void setUp() {
+        source = new CharSequenceSource();
+
+        parser = new CharJsonParser(CONFIG);
+    }
+
+    @Override
+    void reset(final String input) {
+        source.reset(input);
+        parser.reset(source);
+    }
 
 }

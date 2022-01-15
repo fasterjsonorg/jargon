@@ -17,75 +17,39 @@ package org.fasterjson.jargon.core.io;
 
 import java.io.IOException;
 import java.io.Reader;
-import org.fasterjson.jargon.core.CharStreamJsonParser;
+import org.fasterjson.jargon.core.CharJsonParser;
 
 /**
- * An {@link Reader} source.
+ * A {@link Reader} source.
  *
- * @see CharStreamJsonParser
+ * @see CharJsonParser
  */
-public class ReaderSource implements CharStreamSource {
-
-    private final char[] buffer;
-
-    private int length;
-
-    private int index;
+public class ReaderSource implements CharSource {
 
     private Reader input;
 
     /**
-     * Construct a new instance using the default configuration.
+     * Construct a new instance.
      */
     public ReaderSource() {
-        this(SourceConfig.DEFAULTS);
+        reset(null);
     }
 
     /**
-     * Construct a new instance using a custom configuration.
+     * Reset this source.
      *
-     * @param config the configuration
-     */
-    public ReaderSource(final SourceConfig config) {
-        this.buffer = new char[config.getBufferSize()];
-
-        this.length = -1;
-
-        this.index = 0;
-
-        this.input = null;
-    }
-
-    /**
-     * Reset this instance.
-     *
-     * @param input the input
+     * @param input the input document
      */
     public void reset(final Reader input) {
-        this.length = 0;
-
-        this.index = 0;
-
         this.input = input;
     }
 
     @Override
-    public int nextChar() throws IOException {
-        if (index < length)
-            return buffer[index++];
-
-        return nextCharSlowPath();
-    }
-
-    private int nextCharSlowPath() throws IOException {
-        if (length == -1)
+    public int read(final char[] buffer) throws IOException {
+        if (input == null)
             return -1;
 
-        length = input.read(buffer);
-
-        index = 0;
-
-        return nextChar();
+        return input.read(buffer);
     }
 
 }

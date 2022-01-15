@@ -13,27 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fasterjson.jargon.core;
+package org.fasterjson.jargon.core.io;
 
-import java.io.StringReader;
-import org.fasterjson.jargon.core.io.ReaderSource;
-import org.junit.jupiter.api.BeforeEach;
+import java.io.IOException;
+import org.fasterjson.jargon.core.ByteJsonParser;
 
-class CharStreamJsonParserTest extends JsonParserTest<CharStreamJsonParser> {
+/**
+ * A byte source.
+ *
+ * @see ByteJsonParser
+ */
+public interface ByteSource {
 
-    private ReaderSource source;
-
-    @BeforeEach
-    void setUp() {
-        source = new ReaderSource();
-
-        parser = new CharStreamJsonParser(CONFIG);
-    }
-
-    @Override
-    void reset(final String input) {
-        source.reset(new StringReader(input));
-        parser.reset(source);
-    }
+    /**
+     * Read from the input.
+     *
+     * @param buffer the destination buffer
+     * @return the number bytes read or {@code -1} if there are no more bytes
+     * @throws IOException if an I/O error occurs
+     */
+    int read(byte[] buffer) throws IOException;
 
 }

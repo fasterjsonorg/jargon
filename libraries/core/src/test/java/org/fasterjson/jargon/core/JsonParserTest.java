@@ -28,6 +28,7 @@ abstract class JsonParserTest<P extends JsonParser> {
     private static final double EPSILON = 1e-23;
 
     static final JsonParserConfig CONFIG = JsonParserConfig.newBuilder()
+        .setBufferSize(8)
         .setMinNestingCapacity(2)
         .setMaxNestingCapacity(4)
         .setMinFieldNameCapacity(4)
