@@ -15,8 +15,8 @@
  */
 package org.fasterjson.jargon.databind;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.fasterjson.jargon.core.JsonToken.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

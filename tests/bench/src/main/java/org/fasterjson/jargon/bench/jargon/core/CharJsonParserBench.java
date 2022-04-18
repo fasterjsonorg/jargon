@@ -17,8 +17,8 @@ package org.fasterjson.jargon.bench.jargon.core;
 
 import java.io.IOException;
 import org.fasterjson.jargon.bench.Bench;
-import org.fasterjson.jargon.core.JsonToken;
 import org.fasterjson.jargon.core.CharJsonParser;
+import org.fasterjson.jargon.core.JsonToken;
 import org.fasterjson.jargon.core.io.CharSequenceSource;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Level;
