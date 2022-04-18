@@ -17,8 +17,8 @@ package org.fasterjson.jargon.core;
 
 import java.io.IOException;
 import org.fasterjson.jargon.core.io.ByteArraySource;
-import org.fasterjson.jargon.core.io.InputStreamSource;
 import org.fasterjson.jargon.core.io.ByteSource;
+import org.fasterjson.jargon.core.io.InputStreamSource;
 
 /**
  * A JSON parser that reads from byte sources.
