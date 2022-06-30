@@ -45,11 +45,11 @@ public class InputStreamSource implements ByteSource {
     }
 
     @Override
-    public int read(final byte[] buffer) throws IOException {
+    public int read(final byte[] buffer, final int offset) throws IOException {
         if (input == null)
             return -1;
 
-        return input.read(buffer);
+        return input.read(buffer, offset, buffer.length - offset);
     }
 
 }

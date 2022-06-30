@@ -24,7 +24,7 @@ class CharSequenceSourceTest {
 
     private static final String INPUT = "FOO";
 
-    private static final char[] BUFFER = { 'F', 'O', 'O', 0, 0, 0 };
+    private static final char[] BUFFER = { 0, 0, 'F', 'O', 'O', 0 };
 
     private CharSequenceSource source;
 
@@ -41,7 +41,7 @@ class CharSequenceSourceTest {
     void resetWithString() {
         source.reset(INPUT);
 
-        int count = source.read(buffer);
+        int count = source.read(buffer, 2);
 
         assertEquals(3, count);
         assertArrayEquals(BUFFER, buffer);
@@ -51,7 +51,7 @@ class CharSequenceSourceTest {
     void resetWithStringBuilder() {
         source.reset(new StringBuilder(INPUT));
 
-        int count = source.read(buffer);
+        int count = source.read(buffer, 2);
 
         assertEquals(3, count);
         assertArrayEquals(BUFFER, buffer);
