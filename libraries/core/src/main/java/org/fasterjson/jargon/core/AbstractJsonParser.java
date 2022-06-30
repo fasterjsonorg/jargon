@@ -356,24 +356,11 @@ abstract class AbstractJsonParser implements JsonParser {
         currentStructType = depth == 0 ? null : structTypes[depth - 1];
     }
 
-    private void parseFalse() throws IOException {
-        matchAsciiChar('a');
-        matchAsciiChar('l');
-        matchAsciiChar('s');
-        matchAsciiChar('e');
-    }
+    abstract void parseFalse() throws IOException;
 
-    private void parseNull() throws IOException {
-        matchAsciiChar('u');
-        matchAsciiChar('l');
-        matchAsciiChar('l');
-    }
+    abstract void parseNull() throws IOException;
 
-    private void parseTrue() throws IOException {
-        matchAsciiChar('r');
-        matchAsciiChar('u');
-        matchAsciiChar('e');
-    }
+    abstract void parseTrue() throws IOException;
 
     private JsonToken parseNumber(final int signum, final int firstCh) throws IOException {
         text.setLength(0);
@@ -523,13 +510,6 @@ abstract class AbstractJsonParser implements JsonParser {
         currentToken = null;
     }
 
-    private void matchAsciiChar(final char expectedCh) throws IOException {
-        int actualCh = nextAsciiChar();
-
-        if (actualCh != expectedCh)
-            unexpectedAsciiChar(actualCh, expectedCh);
-    }
-
     private void increaseNestingCapacity() throws JsonParseException {
         int currentNestingCapacity = structTypes.length;
         int newNestingCapacity = Math.min(2 * currentNestingCapacity, maxNestingCapacity);
@@ -538,6 +518,17 @@ abstract class AbstractJsonParser implements JsonParser {
             parseError("Maximum nesting capacity exceeded");
 
         structTypes = Arrays.copyOf(structTypes, newNestingCapacity);
+    }
+
+    static void unexpectedAsciiChar(final int actualCh, final char expectedCh) throws JsonParseException {
+        if (actualCh == -1)
+            unexpectedEof();
+        else
+            parseError("Expected '" + expectedCh + "' but got '" + (char)actualCh + "'");
+    }
+
+    static void unexpectedEof() throws JsonParseException {
+        throw new JsonEOFException("Unexpected end of input");
     }
 
     private static boolean isDigit(final int ch) {
@@ -575,13 +566,6 @@ abstract class AbstractJsonParser implements JsonParser {
             parseError("Unexpected '" + (char)ch + "'");
     }
 
-    private static void unexpectedAsciiChar(final int actualCh, final char expectedCh) throws JsonParseException {
-        if (actualCh == -1)
-            unexpectedEof();
-        else
-            parseError("Expected '" + expectedCh + "' but got '" + (char)actualCh + "'");
-    }
-
     private static void leadingZero() throws JsonParseException {
         parseError("Leading zero in numeric value");
     }
@@ -596,10 +580,6 @@ abstract class AbstractJsonParser implements JsonParser {
 
     private static void tooLongText(final String textType) throws JsonParseException {
         parseError("Too long " + textType);
-    }
-
-    private static void unexpectedEof() throws JsonParseException {
-        throw new JsonEOFException("Unexpected end of input");
     }
 
     private static void parseError(final String message) throws JsonParseException {
