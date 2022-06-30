@@ -81,6 +81,34 @@ public class ByteJsonParser extends AbstractJsonParser {
     }
 
     @Override
+    void parseFalse() throws IOException {
+        ensure(4);
+
+        matchAsciiChar('a');
+        matchAsciiChar('l');
+        matchAsciiChar('s');
+        matchAsciiChar('e');
+    }
+
+    @Override
+    void parseNull() throws IOException {
+        ensure(3);
+
+        matchAsciiChar('u');
+        matchAsciiChar('l');
+        matchAsciiChar('l');
+    }
+
+    @Override
+    void parseTrue() throws IOException {
+        ensure(3);
+
+        matchAsciiChar('r');
+        matchAsciiChar('u');
+        matchAsciiChar('e');
+    }
+
+    @Override
     int nextAsciiChar() throws IOException {
         if (index < length)
             return buffer[index++];
@@ -106,6 +134,39 @@ public class ByteJsonParser extends AbstractJsonParser {
         index = 1;
 
         return buffer[0];
+    }
+
+    private void matchAsciiChar(final char expectedCh) throws IOException {
+        byte actualCh = buffer[index++];
+
+        if (actualCh != expectedCh)
+            unexpectedAsciiChar(actualCh, expectedCh);
+    }
+
+    private void ensure(final int count) throws IOException {
+        if (length - index < count)
+            fill();
+
+        if (length < count)
+            unexpectedEof();
+    }
+
+    private void fill() throws IOException {
+        int remaining = length - index;
+        if (remaining > 0)
+            System.arraycopy(buffer, index, buffer, 0, remaining);
+
+        index = 0;
+
+        while (true) {
+            length = source.read(buffer, remaining);
+            if (length == 0)
+                continue;
+
+            break;
+        }
+
+        length += remaining;
     }
 
 }
