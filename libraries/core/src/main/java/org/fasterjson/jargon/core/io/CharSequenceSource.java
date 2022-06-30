@@ -74,8 +74,13 @@ public class CharSequenceSource implements CharSource {
 
         int count = Math.min(length, buffer.length);
 
-        for (int i = 0; i < count; i++)
-            buffer[i] = input.charAt(offset + i);
+        if (input instanceof String) {
+            ((String)input).getChars(offset, offset + count, buffer, 0);
+        }
+        else {
+            for (int i = 0; i < count; i++)
+                buffer[i] = input.charAt(offset + i);
+        }
 
         offset += count;
         length -= count;
