@@ -29,10 +29,11 @@ public interface CharSource {
      * Read from the input.
      *
      * @param buffer the destination buffer
+     * @param offset the destination offset
      * @return the number of characters read or {@code -1} if there are no more
      *     characters
      * @throws IOException if an I/O error occurs
      */
-    int read(char[] buffer) throws IOException;
+    int read(char[] buffer, int offset) throws IOException;
 
 }

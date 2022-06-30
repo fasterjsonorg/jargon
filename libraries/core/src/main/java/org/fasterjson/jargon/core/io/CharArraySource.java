@@ -28,9 +28,9 @@ public class CharArraySource implements CharSource {
 
     private char[] input;
 
-    private int offset;
+    private int inputOffset;
 
-    private int length;
+    private int inputLength;
 
     /**
      * Construct a new instance.
@@ -47,37 +47,37 @@ public class CharArraySource implements CharSource {
     public void reset(final char[] input) {
         this.input = input;
 
-        this.offset = 0;
+        this.inputOffset = 0;
 
-        this.length = input.length;
+        this.inputLength = input.length;
     }
 
     /**
      * Reset this source.
      *
      * @param input the input document
-     * @param offset the offset
-     * @param length the length
+     * @param offset the input offset
+     * @param length the input length
      */
     public void reset(final char[] input, final int offset, final int length) {
         this.input = input;
 
-        this.offset = offset;
+        this.inputOffset = offset;
 
-        this.length = length;
+        this.inputLength = length;
     }
 
     @Override
-    public int read(final char[] buffer) {
-        if (length == 0)
+    public int read(final char[] buffer, final int offset) {
+        if (inputLength == 0)
             return -1;
 
-        int count = Math.min(length, buffer.length);
+        int count = Math.min(inputLength, buffer.length - offset);
 
-        System.arraycopy(input, offset, buffer, 0, count);
+        System.arraycopy(input, inputOffset, buffer, offset, count);
 
-        offset += count;
-        length -= count;
+        inputOffset += count;
+        inputLength -= count;
 
         return count;
     }

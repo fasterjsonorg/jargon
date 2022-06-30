@@ -29,9 +29,10 @@ public interface ByteSource {
      * Read from the input.
      *
      * @param buffer the destination buffer
+     * @param offset the destination offset
      * @return the number bytes read or {@code -1} if there are no more bytes
      * @throws IOException if an I/O error occurs
      */
-    int read(byte[] buffer) throws IOException;
+    int read(byte[] buffer, int offset) throws IOException;
 
 }

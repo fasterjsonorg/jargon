@@ -31,7 +31,7 @@ public class ByteJsonParser extends AbstractJsonParser {
     private static final ByteSource EMPTY_SOURCE = new ByteSource() {
 
         @Override
-        public int read(final byte[] buffer) {
+        public int read(final byte[] buffer, final int offset) {
             return -1;
         }
 
@@ -93,7 +93,7 @@ public class ByteJsonParser extends AbstractJsonParser {
             return -1;
 
         while (true) {
-            length = source.read(buffer);
+            length = source.read(buffer, 0);
             if (length == -1)
                 return -1;
 

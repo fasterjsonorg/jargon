@@ -28,9 +28,9 @@ public class CharSequenceSource implements CharSource {
 
     private CharSequence input;
 
-    private int offset;
+    private int inputOffset;
 
-    private int length;
+    private int inputLength;
 
     /**
      * Construct a new instance.
@@ -47,9 +47,9 @@ public class CharSequenceSource implements CharSource {
     public void reset(final CharSequence input) {
         this.input = input;
 
-        this.offset = 0;
+        this.inputOffset = 0;
 
-        this.length = input.length();
+        this.inputLength = input.length();
     }
 
     /**
@@ -62,28 +62,28 @@ public class CharSequenceSource implements CharSource {
     public void reset(final CharSequence input, final int offset, final int length) {
         this.input = input;
 
-        this.offset = offset;
+        this.inputOffset = offset;
 
-        this.length = length;
+        this.inputLength = length;
     }
 
     @Override
-    public int read(final char[] buffer) {
-        if (length == 0)
+    public int read(final char[] buffer, final int offset) {
+        if (inputLength == 0)
             return -1;
 
-        int count = Math.min(length, buffer.length);
+        int count = Math.min(inputLength, buffer.length - offset);
 
         if (input instanceof String) {
-            ((String)input).getChars(offset, offset + count, buffer, 0);
+            ((String)input).getChars(inputOffset, inputOffset + count, buffer, offset);
         }
         else {
             for (int i = 0; i < count; i++)
-                buffer[i] = input.charAt(offset + i);
+                buffer[offset + i] = input.charAt(inputOffset + i);
         }
 
-        offset += count;
-        length -= count;
+        inputOffset += count;
+        inputLength -= count;
 
         return count;
     }

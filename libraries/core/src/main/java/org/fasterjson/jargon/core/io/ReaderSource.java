@@ -45,11 +45,11 @@ public class ReaderSource implements CharSource {
     }
 
     @Override
-    public int read(final char[] buffer) throws IOException {
+    public int read(final char[] buffer, final int offset) throws IOException {
         if (input == null)
             return -1;
 
-        return input.read(buffer);
+        return input.read(buffer, offset, buffer.length - offset);
     }
 
 }

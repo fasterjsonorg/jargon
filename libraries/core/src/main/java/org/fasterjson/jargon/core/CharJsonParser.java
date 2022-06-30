@@ -33,7 +33,7 @@ public class CharJsonParser extends AbstractJsonParser {
     private static final CharSource EMPTY_SOURCE = new CharSource() {
 
         @Override
-        public int read(final char[] buffer) {
+        public int read(final char[] buffer, final int offset) {
             return -1;
         }
 
@@ -95,7 +95,7 @@ public class CharJsonParser extends AbstractJsonParser {
             return -1;
 
         while (true) {
-            length = source.read(buffer);
+            length = source.read(buffer, 0);
             if (length == -1)
                 return -1;
 
