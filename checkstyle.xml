@@ -19,6 +19,11 @@
   <property name="charset" value="UTF-8" />
   <property name="fileExtensions" value="java" />
 
+  <!-- Ignore generated sources. -->
+  <module name="BeforeExecutionExclusionFileFilter">
+    <property name="fileNamePattern" value="target/generated-sources" />
+  </module>
+
   <!-- No tabs. -->
   <module name="FileTabCharacter">
     <property name="eachLine" value="true" />
