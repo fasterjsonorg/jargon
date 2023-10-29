@@ -1,3 +1,6 @@
+> :warning: This repository is **archived** and no further development
+> will take place.
+
 # Jargon
 
 Jargon is a fast JSON library for the JVM.
@@ -40,11 +43,6 @@ Jargon is currently in early stages of development.
 |         3 |   Planned   | UTF-8 support                           |
 |         4 |   Planned   | Scientific notation support for numbers |
 |         5 |   Planned   | Escape code support for strings         |
-
-## Links
-
-- Follow [@fasterjsonorg](https://twitter.com/fasterjsonorg) on Twitter for
-  news and announcements
 
 ## License
 
